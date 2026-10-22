@@ -1,4 +1,5 @@
 # Php2shell-Scanner
+![php2shell](php2shell.png)
 Designed to enable system administrators and incident response teams (SOC / CERT / DevOps) to scan servers and web applications whether a single target or a list of multiple targets to check for vulnerability to the "PHP2Shell" flaws, without sending any exploit payloads or causing memory crashes.
 
 ```text
@@ -72,43 +73,5 @@ When `expose_php = Off` hides version headers over HTTP, run the tool directly o
 python php2shell_scanner.py --local-audit
 ```
 
-## 5. Sample Formatted Terminal Output
 
-```text
-[*] Loaded 2 unique target(s) | Threads: 5 | Timeout: 8.0s | Multipart Check: ON
 
-══════════════════════════ DETAILED TARGET AUDIT RESULTS ═════════════════════════
-
-[Target #1] http://127.0.0.1:18426/vuln.php (Input: 127.0.0.1:18426/vuln.php)
-  ├─ Exposure Status       : [! VULNERABLE]
-  ├─ HTTP Status & Latency : HTTP 200 (13.5 ms)
-  ├─ Detected PHP Version  : 8.4.26
-  ├─ Server / X-Powered-By : Server: Apache/2.4.62 (Ubuntu) PHP/8.4.26 | X-Powered-By: PHP/8.4.26
-  ├─ SAPI & Risk Profile   : Apache mod_php (apache2handler) -> CRITICAL (Highest Risk - Validated Pre-Script RCE)
-  ├─ WAF / Edge Proxy      : None Detected
-  ├─ Multipart POST Policy : Accepted (HTTP 200 - Multipart reaches backend)
-  ├─ CVE-2026-109618 (OOM) : VULNERABLE (< 8.4.27)
-  ├─ CVE-2026-109619 (UAF) : VULNERABLE (< 8.4.27)
-  ├─ Telemetry Observations: Active PHPSESSID session cookie observed in HTTP response.; Target issued PHPSESSID on POST response.
-  └─ Remediation Guidance  : CRITICAL: Upgrade PHP 8.4 branch to 8.4.27 immediately and restart workers.
-
-[Target #2] http://127.0.0.1:18427/patched.php (Input: http://127.0.0.1:18427/patched.php)
-  ├─ Exposure Status       : [✓ PATCHED]
-  ├─ HTTP Status & Latency : HTTP 200 (17.2 ms)
-  ├─ Detected PHP Version  : 8.4.27
-  ├─ Server / X-Powered-By : Server: Apache/2.4.62 (Debian) | X-Powered-By: PHP/8.4.27
-  ├─ SAPI & Risk Profile   : Apache (mod_php or proxy_fcgi/PHP-FPM) -> HIGH-CRITICAL (Verify apachectl -M for mod_php vs proxy_fcgi)
-  ├─ WAF / Edge Proxy      : None Detected
-  ├─ Multipart POST Policy : Accepted (HTTP 200 - Multipart reaches backend)
-  ├─ CVE-2026-109618 (OOM) : Patched (>= 8.4.27)
-  ├─ CVE-2026-109619 (UAF) : Patched (>= 8.4.27)
-  └─ Remediation Guidance  : Running patched release 8.4.27. Ensure all web workers were restarted.
-
-════════════════════════════════ SCAN SUMMARY TABLE ══════════════════════════════
-  Total Targets Scanned     : 2
-  Confirmed Vulnerable      : 1
-  Potentially Exposed       : 0 (PHP detected, version banner hidden)
-  Confirmed Patched / Safe  : 1
-  Unknown / Unreachable     : 0
-══════════════════════════════════════════════════════════════════════════════════
-```
